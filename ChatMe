@@ -1,0 +1,514 @@
+#import all functions
+from turtle import *
+from time import *
+from random import *
+
+#make the main turtle
+t = Turtle()
+t.penup()
+t.speed(30)
+t.hideturtle()
+
+#make the secondary turtle (helper)
+ti = Turtle()
+ti.speed(0)
+ti.penup()
+ti.goto(500, 500)
+ti.hideturtle()
+
+#making screen variable
+scr = t.getscreen()
+
+#The x,y variables
+x = 0
+y = 0
+
+#make the signature
+def signature():
+    ti.goto(-250, -150)
+    ti.write('Mcone Group', font = ('Arial', 18, 'normal'))
+    ti.goto(50, -150)
+    ti.write('#free_palestine', font = ('Arial', 18, 'normal'))
+
+#make the retry function
+def retry():
+    t.goto(-240, 50)
+    t.write('What fun activity do you want to do today?', font = ('Arial', 18, 'normal'))
+    t.goto(-200, 10)
+    t.write('help - see all commands and what they do', font = ('Arial', 20, 'normal'))
+    sleep(0.8)
+    fun = scr.textinput("ChatMe", "What fun activity do you want to do today?").lower()
+    t.clear()
+    if fun == 'draw' or fun == 'paint':
+        PaintApp().run()
+    elif fun == 'help':
+        help_R()
+    elif fun == 'health' or fun == 'calculator' or fun == 'bmi' or fun == 'bmi calculator':
+        bmi_calculator()
+    elif fun == 'talk' or fun == 'chat':
+        talk()
+    elif fun == 'change outfit' or fun == 'change turtle':
+        change_outfit()
+    elif fun == 'nothing':
+        error()
+    elif fun == 'about':
+        about()
+    elif fun == 'stop':
+        sleep(1)
+    elif fun == 'scramble game' or fun == 'scramble word':
+        python = str()
+        scramble = str()
+        coding = str()
+        scramble_word(python, scramble, coding)
+    elif fun == 'help error' or fun == 'error':
+        help_error()
+    else:
+        error()
+
+#make the error definition
+def error():
+    t.clear()
+    t.goto(-180, 50)
+    t.write('Sorry, something went wrong :( ', font = ('Arial', 20, 'normal'))
+    t.goto(-240, 50)
+    t.write('help error - to see all ressons for errors', font = ('Arial', 20, 'normal'))
+    sleep(2)
+    t.clear()
+    rturn()
+
+#The help definition
+def help_R():
+    # Printing all ways of writing a command
+    commands = [
+        "1- Write 'change outfit' or 'change turtle' if you want to change the turtle properties",
+        "2- Write 'talk' or 'chat' if you want to chat",
+        "3- Write 'draw' or 'paint' if you want to draw or paint",
+        "4- Write 'nothing' if you want to see how the error works",
+        "5- Write 'about' to know the creators",
+        "6- Write 'health' or 'calculator' to use the BMI calculator",
+        "7- Write 'scramble game' or 'scramble word' to play the scramble word game",
+        "8- Write 'stop' to stop this program"
+    ]
+
+    y_pos = 130
+    for command in commands:
+        t.goto(-250, y_pos)
+        t.write(command, font=('Arial', 12, 'normal'))
+        y_pos -= 30
+
+    t.goto(-230, -150)
+    t.write('Thank you for using our program :)', font=('Arial', 14, 'normal'))
+    sleep(20)
+    t.clear()
+    rturn()
+
+    t.goto(-250, -150)
+    t.write('Thank you for using our program :)', font=('Arial', 14, 'normal'))
+    sleep(8)
+    t.clear()
+    rturn()
+
+def help_error():
+    commands = [
+        "1- spelling the command in the wrong way",
+        "2- ",
+        "3- Write 'draw' or 'paint' if you want to draw or paint",
+        "4- Write 'nothing' if you want to see how the error works",
+        "5- Write 'about' to know the creators",
+        "6- Write 'health' or 'calculator' to use the BMI calculator",
+        "7- Write 'scramble game' or 'scramble word' to play the scramble word game",
+    ]
+
+    y_pos = 130
+    for command in commands:
+        t.goto(-250, y_pos)
+        t.write(command, font=('Arial', 12, 'normal'))
+        y_pos -= 30
+    t.goto(-200, -150)
+    t.write('Thank you for using our program :)', font=('Arial', 14, 'normal'))
+    sleep(20)
+    t.clear()
+    rturn()
+
+#make the return definition (We called the def rturn because we cannot call it return)
+def rturn():
+    #asking the user if they want to return
+    t.goto(-150, 50)
+    t.write('Do you want to return?', font=('Arial', 20, 'normal'))
+    ret = scr.textinput("Choose", "Do you want to return")
+    ret = ret.lower()
+    t.clear()
+    if ret == 'yes':
+        retry()
+    else:
+        sleep(1)
+
+#change outfit defintion
+def change_outfit():
+    t.showturtle()
+    t.goto(0, 0)
+    color = scr.textinput("Choose","Color?")
+    t.color(color)
+    shape = scr.textinput("Choose","Shape?")
+    t.shape(shape)
+    size = scr.textinput("Choose","Size?")
+    size_i = int(size)
+    t.pensize(size_i)
+
+# PaintApp class with fixed methods
+class PaintApp:
+    def __init__(self):        
+        self.scr = t.getscreen()  
+        self.setup_turtle()
+        self.setup_keyboard_listeners()
+
+    def setup_turtle(self):
+        t.speed(5)
+        t.shape('circle')
+        t.pendown()
+        t.width(5)
+        t.color('black')
+        t.ondrag(self.draw)
+
+    def draw(self, x, y):
+        t.goto(x, y)
+
+    def move(self, x, y):
+        t.penup()
+        t.goto(x, y)
+        t.pendown()
+
+    def clear(self):
+        t.clear()
+
+    def set_color(self, color):
+        t.color(color)
+
+    def set_width(self, width):
+        t.width(width)
+
+    def step_up(self):
+        t.goto(t.xcor(), t.ycor() + 5)
+
+    def step_down(self):
+        t.goto(t.xcor(), t.ycor() - 5)
+
+    def step_left(self):
+        t.goto(t.xcor() - 5, t.ycor())
+
+    def step_right(self):
+        t.goto(t.xcor() + 5, t.ycor())
+
+    def start_fill(self):
+        t.begin_fill()
+
+    def end_fill(self):
+        t.end_fill()
+
+    def draw_square(self, color):
+        ti.pendown()
+        ti.color('gray', color)
+        ti.begin_fill()
+        for _ in range(4):
+            ti.forward(40)
+            ti.left(90)
+        ti.end_fill()
+        ti.penup()
+
+    def draw_symbol(self, symbol, indent):
+        ti.forward(indent)
+        ti.pendown()
+        ti.color('gray')
+        ti.write(symbol, font=('Arial', 12, 'normal'))
+        ti.penup()
+
+    def draw_circle(self, size):
+        ti.pendown()
+        ti.begin_fill()
+        ti.color('gray')
+        ti.circle(size)
+        ti.end_fill()
+        ti.penup()
+
+    def paint(self):
+        # Drawing color selection squares
+        ti.hideturtle()
+        ti.penup()
+        y = 180
+        positions = [(-190, 'red', 'R'), (-130, 'orange', 'O'), (-70, 'yellow', 'Y'),
+                     (-10, 'green', 'G'), (50, 'light blue', 'L'), (110, 'blue', 'B'),
+                     (170, 'violet', 'V')]
+        
+        for pos_x, color, symbol in positions:
+            ti.goto(pos_x, y)
+            self.draw_square(color)
+            self.draw_symbol(symbol, 42)
+
+        # Drawing thickness selection circles
+        x = 200
+        circle_sizes = [(140, 5, '1'), (100, 10, '2'), (53, 15, '3'), 
+                        (0, 20, '4'), (-60, 25, '5')]
+        
+        for y_val, size, symbol in circle_sizes:
+            ti.goto(x, y_val)
+            self.draw_circle(size)
+            self.draw_symbol(symbol, 30)
+
+        # Clear instruction
+        ti.goto(-100, -200)
+        ti.write('k = clear page', font=('Arial', 20, 'normal'))
+
+    def setup_keyboard_listeners(self):
+        t.showturtle()
+        self.scr.onclick(self.move)
+        self.scr.onkey(lambda: self.set_color('red'), 'r')
+        self.scr.onkey(lambda: self.set_color('green'), 'g')
+        self.scr.onkey(lambda: self.set_color('blue'), 'b')
+        self.scr.onkey(lambda: self.set_color('orange'), 'o')
+        self.scr.onkey(lambda: self.set_color('yellow'), 'y')
+        self.scr.onkey(lambda: self.set_color('light blue'), 'l')
+        self.scr.onkey(lambda: self.set_color('violet'), 'v')
+        self.scr.onkey(lambda: self.set_width(5), '1')
+        self.scr.onkey(lambda: self.set_width(10), '2')
+        self.scr.onkey(lambda: self.set_width(18), '3')
+        self.scr.onkey(lambda: self.set_width(25), '4')
+        self.scr.onkey(lambda: self.set_width(35), '5')
+        self.scr.onkey(self.step_up, 'Up')
+        self.scr.onkey(self.step_down, 'Down')
+        self.scr.onkey(self.step_left, 'Left')
+        self.scr.onkey(self.step_right, 'Right')
+        self.scr.onkey(self.clear, 'k')
+        self.scr.onkey(self.start_fill, 'f')
+        self.scr.onkey(self.end_fill, 'e')
+        self.scr.listen()
+
+    def run(self):
+        self.paint()
+        self.scr.mainloop()
+
+#scramble game defintion
+def scramble_word(python, scramble, coding):
+    t.goto(-200, 50)
+    t.write('I have a word in mind that I scrambled', font = ('Arial', 18, 'normal'))
+    sleep(1.1)
+    t.clear()
+    t.goto(-180, 50)
+    t.write('and you guess it..', font = ('Arial', 18, 'normal'))
+    python = 'yothnp'
+    scramble = 'crabmles'
+    coding = 'docgni'
+    sleep(1.1)
+    t.clear()
+    t.goto(-160, 50)
+    t.clear()
+    t.write('it is:'+ python, font = ('Arial', 18, 'normal'))
+    guess_2 = scr.textinput("Scramble Word", "What is the word?")
+    t.clear()
+    if guess == 'python':
+        t.goto(-180, 50)
+        t.write('You are correct!', font = ('Arial', 18, 'normal'))
+        sleep(3)
+        t.clear()
+        t.write('You advanced to the next level!', font = ('Arial', 18, 'normal'))
+        sleep(3)
+        t.clear()
+        t.goto(-200,50)
+        t.write('This levels word is:'+ scramble , font = ('Arial', 18, 'normal'))
+        guess_1 = scr.textinput("Scramble Word", "What is the word?")
+        t.clear()
+        if guess_1 == 'scramble':
+            t.goto(-180, 50)
+            t.write('You are correct!', font = ('Arial', 18, 'normal'))
+            sleep(3)
+            t.clear()
+            t.write('You advanced to the next level!', font = ('Arial', 18, 'normal'))
+            sleep(3)
+            t.clear()
+            t.goto(-200,50)
+            t.write('This levels word is:'+ coding, font = ('Arial', 18, 'normal'))
+            guess_2 = scr.textinput("Scramble Word", "What is the word?")
+            t.clear()
+            if guess_2 == 'coding':
+                t.goto(-180, 50)
+                t.write('You are correct!', font = ('Arial', 18, 'normal'))
+                sleep(3)
+                t.clear()
+                t.goto(-150, 50)
+                t.write('Congratulations', font = ('Arial', 18, 'normal'))
+                sleep(2)
+                t.clear()
+                t.goto(-200, 50)
+                t.write('You passed the game!!', font = ('Arial', 18, 'normal'))
+                sleep(4)
+                t.clear()
+                rturn()
+            else:
+                t.goto(-200, 50)
+                t.write('Incorrect, good like next time', font = ('Arial', 18, 'normal'))
+                sleep(3)
+                t.clear()
+                rturn()
+        else:
+            t.goto(-200, 50)
+            t.write('Incorrect, good like next time', font = ('Arial', 18, 'normal'))
+            sleep(3)
+            t.clear()
+            rturn()
+    else:
+        t.goto(-200, 50)
+        t.write('Incorrect, good like next time', font = ('Arial', 18, 'normal'))
+        sleep(3)
+        t.clear()
+        rturn()
+
+#make the talk defintion
+def talk():
+    t.goto(-40, 50)
+    t.write('Ok', font = ('Arial', 20, 'normal'))
+    sleep(0.5)
+    t.clear()
+    t.goto(-140, 50)
+    t.write('What is your name?', font = ('Arial', 20, 'normal'))
+    name = scr.textinput("Talk", "What is your name?")
+    name = name.lower()
+    t.clear()
+    if name == '' or name == ' ':
+        t.goto(-100, 50)
+        t.write('Ok unknown person', font = ('Arial', 20, 'normal'))
+        name = 'Unknown person'
+        sleep(1)
+        clear()
+    else:
+        t.goto(-200, 50)
+        t.write('What a nice name!', font = ('Arial', 20, 'normal'))
+        sleep(1.5)
+        t.clear()
+    age = int()
+    grade = str()
+    country = str()
+    country_live = str()
+    freetime = str()
+    bmi_1 = int()
+    yes_1(color,age,grade,country,country_live,freetime,bmi_1)
+
+#make the definition for yes_1 (for the talk definition)
+def yes_1(color,age,grade,country,country_live,freetime,bmi_1):
+    t.goto(-200, 50)
+    t.write('Whats your favorite color ?', font = ('Arial', 20, 'normal'))
+    color = scr.textinput("Talk", "Whats your favorite color?").lower
+    t.clear()
+    t.write('Wow what a beautiful color!', font = ('Arial', 20, 'normal'))
+    sleep(2)
+    t.clear()
+    t.write('Who old are you ?', font = ('Arial', 20, 'normal'))
+    age = scr.textinput("Talk", "Who old are you?").lower
+    t.clear()
+    t.write('Where are you from ?', font = ('Arial', 20, 'normal'))
+    color = scr.textinput("Talk", "Where are you from?").lower
+    t.clear()
+    t.goto(-240, 50)
+    t.write('Wow your country sounds beautiful!', font = ('Arial', 17, 'normal'))
+    sleep(2)
+    t.clear()
+    t.goto(-180, 50)
+    t.write('Where do you live ?', font = ('Arial', 20, 'normal'))
+    country_live = scr.textinput("Talk", "Where do you live?").lower
+    t.clear()
+    t.goto(-230, 50)
+    t.write('Wow your country sounds beautiful!', font = ('Arial', 20, 'normal'))
+    sleep(2)
+    t.clear()
+    t.goto(-240, 50)
+    t.write('What do you like to do in your free time ?', font = ('Arial', 17, 'normal'))
+    freetime = scr.textinput("Talk", "What do you like to do in your free time?").lower
+    t.clear()
+    t.goto(-200, 50)
+    t.write('Wow thats very intersting!', font = ('Arial', 20, 'normal'))
+    sleep(2)
+    t.clear()
+    t.goto(-180, 50)
+    t.write('How much is your BMI?', font = ('  Arial', 20, 'normal'))
+    answer_1 = scr.textinput("Talk", "How much is your BMI?")
+    t.clear()
+    t.goto(-60, 50)
+    t.write('So ...', font = ('Arial', 20, 'normal'))
+    sleep(1.8)
+    t.clear()
+    t.goto(-250, 150)
+    t.write('1-Your favorite color:'+ color, font = ('Arial', 14, 'normal'))
+    t.goto(-250, 120)
+    t.write('2-Your age:'+ str(age), font = ('Arial', 14, 'normal'))
+    t.goto(-250, 90)
+    t.write('3-Your freetime is spent on:'+ freetime, font = ('Arial', 14, 'normal'))
+    t.goto(-250, 60)
+    t.write('4-You are from:'+ country, font = ('Arial', 14, 'normal'))
+    t.goto(-250, 30)
+    t.write('5-You live in:'+ country_live, font = ('Arial', 14, 'normal'))
+    t.goto(-250, 0)
+    t.write('6-Your BMI is:'+ answer_1, font = ('Arial', 14, 'normal'))
+    sleep(50)
+    t.clear()
+    rturn()
+
+#make the bmi calculater defintion
+def bmi_calculator():
+    #taking the height and weight
+    t.goto(-150, 50)
+    t.write('Enter your weight (kg)', font = ('Arial', 18, 'normal'))
+    Wei = scr.textinput("BMI calculater", "Enter your weight (kg):")
+    weight = int(Wei)
+    t.clear()
+    t.goto(-150, 50)
+    t.write('Enter your height (cm)', font = ('Arial', 18, 'normal'))
+    Hei = scr.textinput("BMI calculater", "Enter your height (cm):")
+    height = int(Hei)
+    t.clear()
+    bmi = weight / ((height/100) ** 2)
+    t.goto(-150, 50)
+    t.write('Your BMI is:'+ str(bmi), font = ('Arial', 18, 'normal'))
+    sleep(5)
+    t.clear()
+    t.goto(-150, 50)
+    t.write('That means ...', font = ('Arial', 18, 'normal'))
+    sleep(3)
+    t.clear()
+    if bmi <= 18:
+        t.goto(-150, 50)
+        t.write('You are under weight', font = ('Arial', 18, 'normal'))
+        sleep(5)
+        t.clear()
+    elif bmi >= 19 and bmi <= 25:
+        t.goto(-150, 50)
+        t.write('Your BMI is fine', font = ('Arial', 18, 'normal'))
+        sleep(5)
+        t.clear()
+    elif bmi >= 26:
+        t.goto(-150, 50)
+        t.write('You are overweight', font = ('Arial', 18, 'normal'))
+        sleep(5)
+        t.clear()
+    rturn()
+
+#The about defintion
+def about():
+    t.goto(-150, 50)
+    t.write('Chat Me', font = ('Arial', 45, 'normal'))
+    t.goto(-120, 10)
+    t.write('Mcone Group', font = ('Arial', 20, 'normal'))
+    t.goto(-250, -100)
+    t.write('Creators:', font = ('Arial', 18, 'normal'))
+    t.goto(-250, -150)
+    t.write('Adam', font = ('Arial', 18, 'normal'))
+    t.goto(-50, -150)
+    t.write('Jad', font = ('Arial', 18, 'normal'))
+    t.goto(150, -150)
+    t.write('Taym', font = ('Arial', 18, 'normal'))
+    sleep(5)
+    t.clear()
+    rturn()
+
+
+if __name__ == "__main__":
+    signature()
+    retry()
+    scr.mainloop()
